@@ -1,0 +1,23 @@
+---
+import type { SiteMeta } from "@/types";
+import BaseHead from "@/components/BaseHead";
+import { siteConfig } from "@/site-config";
+
+interface Props {
+	meta: SiteMeta;
+}
+
+const {
+	meta: { title, description = siteConfig.description, ogImage, articleDate },
+} = Astro.props;
+---
+
+<html class="absolute h-full w-full" lang={siteConfig.lang}>
+	<head>
+		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
+	</head>
+
+	<body class="flexz overflow-x-hidden">
+		<slot />
+	</body>
+</html>

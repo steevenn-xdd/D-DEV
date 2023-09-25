@@ -1,0 +1,148 @@
+---
+import { menuLinks } from "@/site-config";
+import { Icon } from "astro-icon";
+import { Image } from "astro:assets";
+import LenguasImage from "../assets/DEV (Logotipo).svg";
+
+const url = new URL(Astro.request.url);
+---
+
+<script>
+	import { toggleClass } from "@/utils";
+	let headerEl: HTMLElement;
+	let menuButtonEl: HTMLButtonElement;
+	let menuOpen = false;
+	const header = document.querySelector("#fixed-header") as HTMLElement;
+	const page = document.documentElement;
+
+	function toggleMobileMenu() {
+		toggleClass(headerEl, "menu-open");
+		menuOpen = !menuOpen;
+		menuButtonEl.setAttribute("aria-expanded", menuOpen.toString());
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+		headerEl = document.getElementById("fixed-header")!;
+		menuButtonEl = document.getElementById("toggle-navigation-menu") as HTMLButtonElement;
+		menuButtonEl.addEventListener("click", toggleMobileMenu);
+	});
+
+	document.addEventListener("astro:after-swap", () => {
+		if (menuOpen) toggleMobileMenu();
+	});
+	console.log(menuOpen);
+	document.addEventListener("scroll", () => {
+		const spaces = page.clientHeight - page.scrollTop - header.offsetHeight;
+		header.classList.toggle("fixed-header", spaces < 0);
+	});
+</script>
+
+<header
+	id="fixed-header"
+	class="group absolute bottom-0 left-0 z-20 flex w-full items-center justify-end p-5 text-ocurito"
+>
+	<div class="flex w-full items-center justify-between">
+		<!-- Logo -->
+		<a class="z-50 font-DelaGothicOne text-2xl px-4 sm:flex sm:pt-0 md:justify-start">
+			<h1>D-DEV</h1>
+		</a>
+
+		<!-- Menú de navegación Escritorio -->
+		<nav>
+			<ul
+				class="hidden text-xl sm:flex [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:font-DelaGothicOne [&>li>a]:text-current [&>li>a]:transition-colors"
+			>
+				{
+					menuLinks.map((link) => (
+						<li>
+							<a
+								href={link.path}
+								class="hover:text-white"
+								aria-current={url.pathname === link.path ? "page" : false}
+								rel="prefetch"
+							>
+								{link.title}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<!-- Botón en la parte inferior derecha centrado verticalmente -->
+		<button
+			id="toggle-navigation-menu"
+			class="group relative bottom-0 z-50 mb-0 h-12 w-12 text-fondito hover:text-white sm:invisible sm:hidden"
+			type="button"
+			aria-label="Open page menu"
+			aria-expanded="false"
+			aria-haspopup="menu"
+		>
+			<svg
+				id="line-svg"
+				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
+				aria-hidden="true"
+				focusable="false"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				stroke="currentColor"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"
+				></path>
+			</svg>
+			<svg
+				id="cross-svg"
+				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
+				aria-hidden="true"
+				focusable="false"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				stroke="currentColor"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+			</svg>
+		</button>
+	</div>
+
+	<!-- Menú de navegación Movil -->
+	<nav
+		class="fixed bottom-0 right-0 z-40 hidden h-full flex-col items-end justify-center gap-3 rounded-md bg-neutral-800/50 py-4 shadow backdrop-blur group-[.menu-open]:z-40 group-[.menu-open]:flex sm:hidden"
+	>
+		<!-- Logo -->
+		<a class="z-50 px-4 sm:flex sm:pt-0 md:justify-start">
+			<Image
+				class="h-full w-full object-cover"
+				src={LenguasImage}
+				width="1024"
+				loading="eager"
+				alt="A floating Lenguas in a space suit"
+			/>
+		</a>
+		<ul class="flex w-full flex-col items-center justify-center gap-10">
+			{
+				menuLinks.map((link) => (
+					<li>
+						<a
+							href={link.path}
+							class="w-full px-4 py-2 text-center font-DelaGothicOne text-xl text-current text-ocurito transition-colors hover:text-white"
+							aria-current={url.pathname === link.path ? "page" : false}
+							rel="prefetch"
+						>
+							{link.title}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</header>
+<style>
+	.fixed-header {
+		@apply fixed bottom-auto top-0 transition duration-100;
+		@apply rounded-b-xl bg-ocurito text-fondito ;
+	}
+</style>

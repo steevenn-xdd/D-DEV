@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		color-scheme: light;
+		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
+		--theme-bg: 0deg 0% 98%;
+		--theme-link: 172deg 18% 41%;
+		--theme-text: 203deg 11% 15%;
+		--theme-accent: 351deg 66% 48%;
+		--theme-accent-2: 0deg 0% 7%;
+		--theme-quote: 351deg 66% 48%;
+	}
+
+	:root.dark {
+		color-scheme: dark;
+		--theme-bg: 210deg 6% 12%;
+		--theme-link: 330deg 49% 67%;
+		--theme-text: 220deg 3% 79%;
+		--theme-accent: 159deg 64% 45%;
+		--theme-accent-2: 0deg 0% 93%;
+		--theme-quote: 102deg 100% 86%;
+	}
+
+}
+/*
+
+@layer utilities {
+    @variants responsive {
+       Hide scrollbar for Chrome, Safari and Opera 
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+
+       Hide scrollbar for IE, Edge and Firefox 
+      .no-scrollbar {
+          -ms-overflow-style: none;   IE and Edge 
+          scrollbar-width: none;   Firefox 
+      }
+    }
+  }
+*/
+
+body {
+	background: #111111;
+}

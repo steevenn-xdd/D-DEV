@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import About from '../components/About.astro';
+import Splash from '../components/Splash.astro';
+
+---
+
+<Layout meta={{ title: "Home" }}>
+		<Navbar />
+		
+	<main class="scroll-smooth max-h-screen p-10 snap-y snap-mandatory relative w-full">
+		
+		<div class="snap-center  p-10 h-screen">
+			<Splash />
+		</div>
+		<div class="snap-center justify-center items-center flex p-5  h-screen">
+			<About />
+		</div>
+		<div class="snap-center p-10  h-screen">
+			hola soy div
+		</div>
+	</main>
+</Layout>
